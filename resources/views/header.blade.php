@@ -1,5 +1,5 @@
 <header class="header center d-flex">
-    <a href="index.html" class="logo">
+    <a href="/" class="logo">
         <img src="img/logo.svg" alt="">
     </a>
     <nav class="d-flex">
@@ -9,15 +9,17 @@
             </ul>
         @endif
         <div class="header_btns d-flex">
-            <a href="mailto:info@waytostart.ru" class="btn btn-bordered">info@waytostart.ru</a>
-            <a href="tel:+74993722702" class="btn btn-filled">+7 (499) 372 - 27 - 02</a>
+            @if ($contacts)
+                <a href="mailto:{{ $contacts[0]->email }}" class="btn btn-bordered">{{ $contacts[0]->email }}</a>
+                <a href="tel:{{ $contacts[0]->phone }}" class="btn btn-filled">{{ $contacts[0]->phone }}</a>
+            @endif
         </div>
         <div class="lang_links">
             <a href="#" class="lang_links-item active">ENG</a>
             <a href="#" class="lang_links-item">РУС</a>
         </div>
     </nav>
-    <a href="tel:+74993722702" class="mobile_phone">+7 (499) 372 - 27 - 02</a>
+    <a href="tel:{{ $contacts[0]->phone }}" class="mobile_phone">{{ $contacts[0]->phone }}</a>
     <button class="nav_btn">
         <span></span>
         <span></span>

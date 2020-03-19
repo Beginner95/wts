@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\ContactRepository;
 use App\Repositories\MenusRepository;
 use Illuminate\Support\Arr;
 use Lavary\Menu\Menu;
@@ -11,19 +12,22 @@ class SiteController extends Controller
     protected $p_rep;
     protected $a_rep;
     protected $m_rep;
+    protected $c_rep;
 
     protected $template;
     protected $vars = [];
 
-    public function __construct(MenusRepository $m_rep)
+    public function __construct(MenusRepository $m_rep, ContactRepository $c_rep)
     {
-    $this->m_rep = $m_rep;
+        $this->m_rep = $m_rep;
+        $this->c_rep = $c_rep;
     }
 
     protected function renderOutput()
     {
         $menu = $this->getMenu();
-        $header = view('header')->with('menu', $menu)->render();
+        $contacts = $this->getContacts();
+        $header = view('header', compact('menu', 'contacts'));
         $this->vars = Arr::add($this->vars, 'header', $header);
         return view($this->template)->with($this->vars);
     }
@@ -44,5 +48,10 @@ class SiteController extends Controller
         });
 
         return $menuBuilder;
+    }
+
+    protected function getContacts()
+    {
+        return $this->c_rep->get();
     }
 }
