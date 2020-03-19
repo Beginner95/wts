@@ -6,13 +6,17 @@ use App\Contact;
 use App\Menu;
 use App\Repositories\ContactRepository;
 use App\Repositories\MenusRepository;
+use App\Repositories\PortfolioRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Config;
 
 class IndexController extends SiteController
 {
-    public function __construct()
+    public function __construct(PortfolioRepository $p_rep)
     {
         parent::__construct(new MenusRepository(new Menu()), new ContactRepository(new Contact()));
+        $this->p_rep = $p_rep;
         $this->template = 'index';
     }
 
@@ -20,10 +24,35 @@ class IndexController extends SiteController
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     * @throws \Throwable
      */
     public function index()
     {
+        $portfolios = $this->getPortfolio();
+        $content = view('content')->with('portfolios', $portfolios)->render();
+        $this->vars = Arr::add($this->vars, 'content', $content);
+
         return $this->renderOutput();
+    }
+
+    protected function getPortfolio()
+    {
+        $portfolio = $this->p_rep->get(
+            '*',
+            'show_main,desc',
+            Config::get('settings.main_portfolio_count')
+        );
+
+        if ($portfolio->isEmpty()) {
+            return false;
+        }
+
+        $portfolio->transform(function ($item, $key) {
+            $item->image = Config::get('settings.portfolio_path') . '/' . $item->image;
+            return $item;
+        });
+
+        return $portfolio;
     }
 
     /**
