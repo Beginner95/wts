@@ -1,9 +1,15 @@
 .idea/
 /node_modules
+/public/mix-manifest.json
 /public/hot
+/public/js
+/public/css
+/public/img
+/public/images
 /public/storage
 /storage/*.key
 /vendor
+package-lock.json
 .env
 .env.backup
 .phpunit.result.cache
