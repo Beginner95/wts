@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Contact;
 use App\Menu;
+use App\Repositories\ArticleRepository;
 use App\Repositories\ContactRepository;
 use App\Repositories\MenusRepository;
 use App\Repositories\PortfolioRepository;
@@ -13,10 +14,11 @@ use Illuminate\Support\Facades\Config;
 
 class IndexController extends SiteController
 {
-    public function __construct(PortfolioRepository $p_rep)
+    public function __construct(PortfolioRepository $p_rep, ArticleRepository $a_rep)
     {
         parent::__construct(new MenusRepository(new Menu()), new ContactRepository(new Contact()));
         $this->p_rep = $p_rep;
+        $this->a_rep = $a_rep;
         $this->template = 'index';
     }
 
@@ -29,10 +31,22 @@ class IndexController extends SiteController
     public function index()
     {
         $portfolios = $this->getPortfolio();
-        $content = view('content')->with('portfolios', $portfolios)->render();
+        $articles = $this->getArticles();
+        $content = view('content', compact('portfolios', 'articles'));
         $this->vars = Arr::add($this->vars, 'content', $content);
 
         return $this->renderOutput();
+    }
+
+    protected function getArticles()
+    {
+        $articles = $this->a_rep->get(
+            '*',
+            'id,desc',
+            Config::get('settings.main_articles_count')
+        );
+
+        return $articles;
     }
 
     protected function getPortfolio()

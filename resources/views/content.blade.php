@@ -83,91 +83,36 @@
             Ещё
         </button>
     </aside>
-    <article class='section_content'>
-        <figure class="section_item">
-            <picture class="section_item-img">
-                <source srcset='img/blog_img-1.webp' type='image/webp'>
-                <img src="img/blog_img-1.jpg" alt="">
-            </picture>
-            <p class="section_item-type">
-                Мобильная разработка
-            </p>
-            <h3 class="section_item-name">
-                Мобильные приложения: <br>
-                как и где заказать
-            </h3>
-            <p class="section_item-description">
-                Бизнес стремительно переходит в смартфоны: это тенденция стала особенно заметной в последние пару лет
-            </p>
-        </figure>
-        <figure class="section_item">
-            <picture class="section_item-img">
-                <source srcset='img/blog_img-2.webp' type='image/webp'>
-                <img src="img/blog_img-2.jpg" alt="">
-            </picture>
-            <p class="section_item-type">
-                Наша компания
-            </p>
-            <h3 class="section_item-name">
-                Почему большинство онлайн-проектов
-                так и не запускается?
-            </h3>
-            <p class="section_item-description">
-                Статья Олега Шевцова о том, как запустить свой онлайн-сервис
-                и избежать большинства ошибок
-            </p>
-        </figure>
-        <figure class="section_item">
-            <picture class="section_item-img">
-                <source srcset='img/blog_img-3.webp' type='image/webp'>
-                <img src="img/blog_img-3.jpg" alt="">
-            </picture>
-            <p class="section_item-type">
-                SMM
-            </p>
-            <h3 class="section_item-name">
-                Как оформить страницу в Инстаграм для бизнеса
-            </h3>
-            <p class="section_item-description">
-                Подробно рассказываем об оформлении страницы для бизнеса
-            </p>
-        </figure>
-        <figure class="section_item">
-            <picture class="section_item-img">
-                <source srcset='img/blog_img-4.webp' type='image/webp'>
-                <img src="img/blog_img-4.jpg" alt="">
-            </picture>
-            <p class="section_item-type">
-                SEO
-            </p>
-            <h3 class="section_item-name">
-                Сниппет в Яндекс
-                с высоким CTR
-            </h3>
-            <p class="section_item-description">
-                Подробно рассказываем об оформлении страницы для бизнеса
-            </p>
 
-        </figure>
+    <article class='section_content'>
+        @if ($articles && count($articles) > 0)
+            @foreach ($articles as $article)
+                <figure class="section_item">
+                    <picture class="section_item-img">
+                        <source srcset='images/{{ $article->main_cover }}' type='image/webp'>
+                        <a href="{{ route('blog.show', ['slug' => $article->slug]) }}">
+                            <img src="images/{{ $article->main_cover }}" alt="">
+                        </a>
+                    </picture>
+                    <p class="section_item-type">{{ $article->category->category }}</p>
+                    <h3 class="section_item-name">{{ $article->title }}</h3>
+                    <p class="section_item-description">{{ $article->short_desc }}</p>
+                </figure>
+            @endforeach
+        @endif
         <figure class="section_item section_item-download">
             <picture class="section_item-img">
                 <source srcset='img/blog_img-5.webp' type='image/webp'>
                 <img src="img/blog_img-5.jpg" alt="">
             </picture>
-            <h3 class="section_item-name">
-                Стратегия SEO-продвижения
-            </h3>
+            <h3 class="section_item-name">Стратегия SEO-продвижения</h3>
             <p class="section_item-description">
                 Детальное пошаговое руководство, собранное за годы работы студии
             </p>
-            <a href="#" download="" class="btn btn-filled btn_orange-hover">
-                Скачать книгу
-            </a>
+            <a href="#" download="" class="btn btn-filled btn_orange-hover">Скачать книгу</a>
         </figure>
     </article>
-    <a href="#" class="btn btn-filled mobile_btn">
-        Все записи
-    </a>
+    <a href="#" class="btn btn-filled mobile_btn">Все записи</a>
 </section>
 <!-- blog_block -->
 
