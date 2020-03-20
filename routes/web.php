@@ -23,3 +23,9 @@ Route::resource('portfolio', 'PortfolioController', [
         'portfolio' => 'slug'
     ]
 ]);
+
+Route::resource('blog', 'BlogController', [
+    'parameters' => [
+        'blog' => 'slug'
+    ]
+]);
