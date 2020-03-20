@@ -20,6 +20,7 @@ class CreateServicesTable extends Migration
             $table->string('description')->nullable();
             $table->string('keywords')->nullable();
             $table->string('name');
+            $table->text('short_desc');
             $table->longText('body');
             $table->timestamps();
         });
