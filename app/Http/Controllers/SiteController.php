@@ -13,6 +13,7 @@ class SiteController extends Controller
     protected $a_rep;
     protected $m_rep;
     protected $c_rep;
+    protected $s_rep;
 
     protected $template;
     protected $vars = [];

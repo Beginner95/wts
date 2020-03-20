@@ -8,17 +8,19 @@ use App\Repositories\ArticleRepository;
 use App\Repositories\ContactRepository;
 use App\Repositories\MenusRepository;
 use App\Repositories\PortfolioRepository;
+use App\Repositories\ServiceRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 
 class IndexController extends SiteController
 {
-    public function __construct(PortfolioRepository $p_rep, ArticleRepository $a_rep)
+    public function __construct(PortfolioRepository $p_rep, ArticleRepository $a_rep, ServiceRepository $s_rep)
     {
         parent::__construct(new MenusRepository(new Menu()), new ContactRepository(new Contact()));
         $this->p_rep = $p_rep;
         $this->a_rep = $a_rep;
+        $this->s_rep = $s_rep;
         $this->template = 'index';
     }
 
@@ -32,10 +34,22 @@ class IndexController extends SiteController
     {
         $portfolios = $this->getPortfolio();
         $articles = $this->getArticles();
-        $content = view('content', compact('portfolios', 'articles'));
+        $services = $this->getServices();
+        $content = view('content', compact('portfolios', 'articles', 'services'));
         $this->vars = Arr::add($this->vars, 'content', $content);
 
         return $this->renderOutput();
+    }
+
+    protected function getServices()
+    {
+        $services = $this->s_rep->get(
+            ['name', 'short_desc'],
+            '',
+            Config::get('settings.main_services_count')
+        );
+
+        return $services;
     }
 
     protected function getArticles()
