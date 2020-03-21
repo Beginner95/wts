@@ -131,7 +131,7 @@
             @foreach ($services as $service)
                 <div class="services_item">
                     <h3 class="services_item-name">
-                        <a href="#">{{ $service->name }}</a>
+                        <a href="{{ route('service.show', ['slug' => $service->slug]) }}">{{ $service->name }}</a>
                         <button class="services_item-toggler">
                             <svg width="21" height="18" viewBox="0 0 21 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M18.8713 0.972632C19.7614 0.331788 20.8849 1.38411 20.3036 2.31416L11.348 16.6432C10.9563 17.2699 10.0437 17.2699 9.652 16.6432L0.696354 2.31416C0.115068 1.38411 1.23859 0.331787 2.12866 0.972632L9.91569 6.5793C10.2647 6.83059 10.7353 6.83059 11.0843 6.5793L18.8713 0.972632Z" fill="#E27A50"/>

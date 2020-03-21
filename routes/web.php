@@ -29,3 +29,9 @@ Route::resource('blog', 'BlogController', [
         'blog' => 'slug'
     ]
 ]);
+
+Route::resource('service', 'ServiceController', [
+    'parameters' => [
+        'service' => 'slug'
+    ]
+]);

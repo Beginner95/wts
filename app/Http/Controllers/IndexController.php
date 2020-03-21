@@ -44,7 +44,7 @@ class IndexController extends SiteController
     protected function getServices()
     {
         $services = $this->s_rep->get(
-            ['name', 'short_desc'],
+            ['name', 'short_desc', 'slug'],
             '',
             Config::get('settings.main_services_count')
         );
