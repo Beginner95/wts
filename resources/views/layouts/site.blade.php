@@ -24,71 +24,7 @@
 <!-- header -->
 @yield('header')
 <!-- header -->
-
-<!-- page_header -->
-<section class="page_header page_header-index text_center center">
-    <h1 class='page_name'>
-        Cоздание и продвижение сайтов
-    </h1>
-    <p class="page_description">
-        83% наших клиентов обращаются к нам повторно на протяжении многих лет
-    </p>
-</section>
-<!-- page_header -->
-
 @yield('content')
-
-<!-- page_header -->
-<section class="page_header text_center center">
-    <h2 class='page_name'>
-        Остались вопросы?
-    </h2>
-    <p class="page_description text_center">
-        Напишите нам и мы постараемся ответить на любой ваш вопрос
-    </p>
-</section>
-<!-- page_header -->
-
-<!-- contact_form -->
-<form class="contact_form center">
-    <label class="input_wrap">
-        <input type="text" name="name" class="input">
-        <span class="input_label">
-				Имя
-			</span>
-    </label>
-    <label class="input_wrap">
-        <input type="tel" name="phone" class="input">
-        <span class="input_label">
-				Телефон
-			</span>
-    </label>
-    <label class="input_wrap">
-        <input type="email" name="email" class="input">
-        <span class="input_label">
-				Почта
-			</span>
-    </label>
-    <label class="input_wrap input_wrap-wide">
-        <textarea rows="3" name="comment" class="input"></textarea>
-        <span class="input_label">
-				Сообщение
-			</span>
-    </label>
-    <label class="input_wrap input_wrap-file input_wrap-wide">
-        <input type="file" name="file" class='visually_hidden'>
-        <span class="input_label btn-filled">
-				📎 Прикрепить файл
-			</span>
-    </label>
-    <button class="btn btn-filled input_wrap-wide">
-        Отправить
-    </button>
-    <p class="input_wrap-wide policy text_center">
-        Нажимая на кнопку «Отправить», вы соглашаетесь с <a href="#">политикой конфиденциальности</a>
-    </p>
-</form>
-<!-- contact_form -->
 
 <!-- footer -->
 <footer class="footer center">

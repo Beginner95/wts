@@ -35,3 +35,5 @@ Route::resource('service', 'ServiceController', [
         'service' => 'slug'
     ]
 ]);
+
+Route::post('contact', 'ContactFormController@store')->name('contact.store');

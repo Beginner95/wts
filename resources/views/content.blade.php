@@ -1,3 +1,13 @@
+<!-- page_header -->
+<section class="page_header page_header-index text_center center">
+    <h1 class='page_name'>
+        Cоздание и продвижение сайтов
+    </h1>
+    <p class="page_description">
+        83% наших клиентов обращаются к нам повторно на протяжении многих лет
+    </p>
+</section>
+<!-- page_header -->
 <!--block portfolio-->
 <section class="portofio_block center d-flex">
     <h2 class='visually_hidden'>Портфолио</h2>

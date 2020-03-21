@@ -1,6 +1,7 @@
 .idea/
 /node_modules
 /public/mix-manifest.json
+/public/email-files
 /public/hot
 /public/js
 /public/css
