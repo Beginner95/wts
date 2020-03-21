@@ -7,5 +7,7 @@ return [
     'main_services_count' => 6,
 
     'folder_email_files' => public_path() . '/email-files',
-    'valid_file_formats' => ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'txt', 'ppt', 'pptx']
+    'valid_file_formats' => ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'txt', 'ppt', 'pptx'],
+
+    'settings.main_project_category_count' => 5
 ];

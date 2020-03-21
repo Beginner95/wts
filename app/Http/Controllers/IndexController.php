@@ -8,18 +8,20 @@ use App\Repositories\ArticleRepository;
 use App\Repositories\ContactRepository;
 use App\Repositories\MenusRepository;
 use App\Repositories\PortfolioRepository;
+use App\Repositories\ProjectCategory;
 use App\Repositories\ServiceRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
 class IndexController extends SiteController
 {
-    public function __construct(PortfolioRepository $p_rep, ArticleRepository $a_rep, ServiceRepository $s_rep)
+    public function __construct(PortfolioRepository $p_rep, ArticleRepository $a_rep, ServiceRepository $s_rep, ProjectCategory $pc_rep)
     {
         parent::__construct(new MenusRepository(new Menu()), new ContactRepository(new Contact()));
         $this->p_rep = $p_rep;
         $this->a_rep = $a_rep;
         $this->s_rep = $s_rep;
+        $this->pc_rep = $pc_rep;
         $this->template = 'index';
     }
 
@@ -34,10 +36,22 @@ class IndexController extends SiteController
         $portfolios = $this->getPortfolio();
         $articles = $this->getArticles();
         $services = $this->getServices();
-        $content = view('content', compact('portfolios', 'articles', 'services'));
+        $projectCategories = $this->getProjectCategories();
+        $content = view('content', compact('portfolios', 'articles', 'services', 'projectCategories'));
         $this->vars = Arr::add($this->vars, 'content', $content);
 
         return $this->renderOutput();
+    }
+
+    protected function getProjectCategories()
+    {
+        $projectCategories = $this->pc_rep->get(
+            ['name', 'slug'],
+            '',
+            config('settings.main_project_category_count')
+        );
+
+        return $projectCategories;
     }
 
     protected function getServices()

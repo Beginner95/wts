@@ -23,11 +23,15 @@
             и полезны
         </p>
         <ul class="portfolio_nav">
-            <li><a href="#">Лендинги</a></li>
-            <li><a href="#">Корпоративные сайты</a></li>
-            <li><a href="#">Интернет-магазины</a></li>
-            <li><a href="#">Онлайн-сервисы</a></li>
-            <li><a href="#">Мобильные приложения</a></li>
+            @if ($projectCategories)
+                @foreach($projectCategories as $projectCategory)
+                    <li>
+                        <a href="{{ route('portfolio.index', ['filter' => $projectCategory->slug]) }}">
+                            {{ $projectCategory->name }}
+                        </a>
+                    </li>
+                @endforeach
+            @endif
         </ul>
     </aside>
     @if ($portfolios && count($portfolios) > 0)
