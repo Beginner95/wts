@@ -11,7 +11,6 @@ use App\Repositories\PortfolioRepository;
 use App\Repositories\ServiceRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Config;
 
 class IndexController extends SiteController
 {
@@ -46,7 +45,7 @@ class IndexController extends SiteController
         $services = $this->s_rep->get(
             ['name', 'short_desc', 'slug'],
             '',
-            Config::get('settings.main_services_count')
+            config('settings.main_services_count')
         );
 
         return $services;
@@ -57,7 +56,7 @@ class IndexController extends SiteController
         $articles = $this->a_rep->get(
             '*',
             'id,desc',
-            Config::get('settings.main_articles_count')
+            config('settings.main_articles_count')
         );
 
         return $articles;
@@ -68,7 +67,7 @@ class IndexController extends SiteController
         $portfolio = $this->p_rep->get(
             '*',
             'show_main,desc',
-            Config::get('settings.main_portfolio_count')
+            config('settings.main_portfolio_count')
         );
 
         if ($portfolio->isEmpty()) {
@@ -76,7 +75,7 @@ class IndexController extends SiteController
         }
 
         $portfolio->transform(function ($item, $key) {
-            $item->image = Config::get('settings.portfolio_path') . '/' . $item->image;
+            $item->image = config('settings.portfolio_path') . '/' . $item->image;
             return $item;
         });
 
