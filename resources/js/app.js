@@ -90,6 +90,12 @@ function clickHandler(e) {
         e.target.nextElementSibling.classList.toggle('active');
         e.target.classList.toggle('active');
     }
+
+    if (e.target.classList.contains('load_more_blog')) {
+        let _token = $('input[name="_token"]').val();
+        let article_id = $('.load_more_blog').attr('data-article-id');
+        load_more_blog(article_id, _token);
+    }
 }
 
 document.addEventListener('click', clickHandler);
@@ -133,3 +139,17 @@ function scrollHandler(e) {
 }
 
 document.addEventListener('scroll', scrollHandler);
+
+
+function load_more_blog(id, _token) {
+    $.ajax({
+        url:"/blog/load-more",
+        method: "POST",
+        data:{id:id, _token:_token},
+        success:function (data) {
+            $('.more-content-blog').append(data);
+            $('.load_more_blog').attr('data-article-id', $('input[name="last-id"]').val());
+            $('input[name="last-id"]').remove();
+        }
+    })
+}

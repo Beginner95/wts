@@ -8,6 +8,7 @@ use App\Repositories\ArticleRepository;
 use App\Repositories\ContactRepository;
 use App\Repositories\MenusRepository;
 use App\Repositories\ProjectCategory;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
 class BlogController extends SiteController
@@ -33,16 +34,74 @@ class BlogController extends SiteController
     {
         $articles = $this->a_rep->get(
             [
+                'id',
                 'meta_title', 'meta_description',
                 'meta_keywords', 'title', 'slug',
                 'main_cover', 'detail_cover',
                 'short_desc', 'img_alt',
                 'img_title', 'post_category_id'
             ],
-            false,
+            'created_at,DESC',
             config('settings.blog_articles_count')
         );
 
         return $articles;
+    }
+
+    public function loadMore(Request $request)
+    {
+        if ($request->ajax()) {
+            if ($request->id > 0) {
+                $articles = $this->a_rep->get(
+                    [
+                        'id', 'meta_title', 'meta_description',
+                        'meta_keywords', 'title', 'slug',
+                        'main_cover', 'detail_cover', 'short_desc', 'img_alt',
+                        'img_title', 'post_category_id'
+                    ],
+                    'created_at,DESC',
+                    config('settings.blog_load_more_count'),
+                    ['id', '<', $request->id]
+                );
+            } else {
+                $articles = $this->a_rep->get(
+                    [
+                        'id', 'meta_title', 'meta_description',
+                        'meta_keywords', 'title', 'slug',
+                        'main_cover', 'detail_cover', 'short_desc', 'img_alt',
+                        'img_title', 'post_category_id'
+                    ],
+                    'created_at,DESC',
+                    config('settings.blog_load_more_count')
+                );
+            }
+            $output = '';
+            $last_id = '';
+            if (!$articles->isEmpty()) {
+                foreach ($articles as $article) {
+                    $style = '';
+                    if (empty($article->main_cover)) {
+                        $style = 'section_item-vacancy';
+                    }
+                    $output .= '<figure class="section_item ' .  $style .' ">';
+                        if (!empty($article->main_cover)) {
+                            $output .= '<picture class="section_item-img">
+                                <source srcset="images/' . $article->main_cover . '" type="image/webp">
+                                <img src="images/' . $article->main_cover . '" alt="">
+                            </picture>';
+                        }
+                        $output .= '<p class="section_item-type">' . $article->category->category . '</p>
+                        <h3 class="section_item-name">' . $article->title . '</h3>
+                        <p class="section_item-description">' . $article->short_desc . '</p>
+                    </figure>
+                    ';
+                    $last_id = $article->id;
+                }
+                $output .= '<input type="hidden" name="last-id" value="' . $last_id . '">';
+                echo $output;
+            } else {
+                return response()->json(null);
+            }
+        }
     }
 }

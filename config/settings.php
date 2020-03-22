@@ -10,5 +10,6 @@ return [
     'valid_file_formats' => ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'txt', 'ppt', 'pptx'],
 
     'settings.main_project_category_count' => 5,
-    'blog_articles_count' => 18
+    'blog_articles_count' => 18,
+    'blog_load_more_count' => 4
 ];

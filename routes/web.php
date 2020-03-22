@@ -24,6 +24,7 @@ Route::resource('portfolio', 'PortfolioController', [
     ]
 ]);
 
+Route::post('blog/load-more', 'BlogController@loadMore')->name('blog.loadMore');
 Route::resource('blog', 'BlogController', [
     'parameters' => [
         'blog' => 'slug'

@@ -69,7 +69,7 @@
     </div>
 
     @if ($articles && count($articles) > 13)
-        <div class="blog_page section_content">
+        <div class="blog_page section_content more-content-blog">
             @foreach (array_slice($articles, 13) as $article)
                 <figure class="section_item @if (empty($article->main_cover)) section_item-vacancy @endif">
                     @if (!empty($article->main_cover))
@@ -84,6 +84,8 @@
                 </figure>
             @endforeach
         </div>
+        @csrf
+        <button class="btn btn-filled load_more_blog" data-article-id="{{ $article->id }}">Загрузить ещё</button>
     @endif
 </section>
 <!-- blog -->
