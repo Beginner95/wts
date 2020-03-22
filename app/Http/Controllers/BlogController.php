@@ -2,83 +2,47 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Contact;
+use App\Menu;
+use App\Repositories\ArticleRepository;
+use App\Repositories\ContactRepository;
+use App\Repositories\MenusRepository;
+use App\Repositories\ProjectCategory;
+use Illuminate\Support\Arr;
 
-class BlogController extends Controller
+class BlogController extends SiteController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct(ArticleRepository $a_rep, ProjectCategory $pc_rep)
+    {
+        parent::__construct(new MenusRepository(new Menu()), new ContactRepository(new Contact()));
+        $this->a_rep = $a_rep;
+        $this->pc_rep = $pc_rep;
+        $this->template = 'blog.index';
+    }
+
     public function index()
     {
-        //
+        $articles = $this->getArticles();
+        $articles = !empty($articles) ? $articles->all() : null;
+        $content = view('blog.articles', compact('articles'));
+        $this->vars = Arr::add($this->vars, 'content', $content);
+        return $this->renderOutput();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    protected function getArticles($slug = false)
     {
-        //
-    }
+        $articles = $this->a_rep->get(
+            [
+                'meta_title', 'meta_description',
+                'meta_keywords', 'title', 'slug',
+                'main_cover', 'detail_cover',
+                'short_desc', 'img_alt',
+                'img_title', 'post_category_id'
+            ],
+            false,
+            config('settings.blog_articles_count')
+        );
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return $articles;
     }
 }

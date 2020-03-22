@@ -9,5 +9,6 @@ return [
     'folder_email_files' => public_path() . '/email-files',
     'valid_file_formats' => ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'txt', 'ppt', 'pptx'],
 
-    'settings.main_project_category_count' => 5
+    'settings.main_project_category_count' => 5,
+    'blog_articles_count' => 18
 ];
