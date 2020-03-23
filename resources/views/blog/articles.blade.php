@@ -10,16 +10,16 @@
     </button>
 </div>
 <div class="filters_wrap filters_wrap-blog center">
-    <button class="btn btn-filled">Все</button>
-    <button class="btn btn-bordered">Наша компания</button>
-    <button class="btn btn-bordered">Веб-разработка</button>
-    <button class="btn btn-bordered">Мобильная разработка</button>
-    <button class="btn btn-bordered">SEO</button>
-    <button class="btn btn-bordered">Клиентский сервис</button>
-    <button class="btn btn-bordered">SMM</button>
-    <button class="btn btn-bordered">Боты</button>
-    <button class="btn btn-bordered">Дизайн</button>
-    <button class="btn btn-bordered"> Маркетинг</button>
+    @php $useCat = isset(explode('/', Request::path())[1]) ? explode('/', Request::path())[1] : '' @endphp
+    <a href="{{ route('blog.index') }}" class="btn @if ($useCat === '') btn-filled @else btn-bordered @endif">Все</a>
+    @if ($postCategories)
+        @foreach ($postCategories as $postCategory)
+            <a href="{{ route('blogCategory', ['slug' => $postCategory->slug]) }}"
+               class="btn @if ($useCat === $postCategory->slug) btn-filled @else btn-bordered @endif">
+                {{ $postCategory->category }}
+            </a>
+        @endforeach
+    @endif
     <button class="btn btn-filled">Еще</button>
 </div>
 <!-- page_header -->
@@ -32,8 +32,8 @@
             <figure class="section_item @if (empty($article->main_cover)) section_item-vacancy @endif">
                 @if (!empty($article->main_cover))
                     <picture class="section_item-img">
-                        <source srcset='images/{{ $article->main_cover }}' type='image/webp'>
-                        <img src="images/{{ $article->main_cover }}" alt="">
+                        <source srcset='/images/{{ $article->main_cover }}' type='image/webp'>
+                        <img src="/images/{{ $article->main_cover }}" alt="">
                     </picture>
                 @endif
                 <p class="section_item-type">{{ $article->category->category }}</p>
@@ -56,8 +56,8 @@
                 <figure class="section_item @if (empty($article->main_cover)) section_item-vacancy @endif">
                     @if (!empty($article->main_cover))
                         <picture class="section_item-img">
-                            <source srcset='images/{{ $article->main_cover }}' type='image/webp'>
-                            <img src="images/{{ $article->main_cover }}" alt="">
+                            <source srcset='/images/{{ $article->main_cover }}' type='image/webp'>
+                            <img src="/images/{{ $article->main_cover }}" alt="">
                         </picture>
                     @endif
                     <p class="section_item-type">{{ $article->category->category }}</p>
@@ -74,8 +74,8 @@
                 <figure class="section_item @if (empty($article->main_cover)) section_item-vacancy @endif">
                     @if (!empty($article->main_cover))
                         <picture class="section_item-img">
-                            <source srcset='images/{{ $article->main_cover }}' type='image/webp'>
-                            <img src="images/{{ $article->main_cover }}" alt="">
+                            <source srcset='/images/{{ $article->main_cover }}' type='image/webp'>
+                            <img src="/images/{{ $article->main_cover }}" alt="">
                         </picture>
                     @endif
                     <p class="section_item-type">{{ $article->category->category }}</p>
@@ -85,7 +85,12 @@
             @endforeach
         </div>
         @csrf
-        <button class="btn btn-filled load_more_blog" data-article-id="{{ $article->id }}">Загрузить ещё</button>
+        <button
+                class="btn btn-filled load_more_blog"
+                data-article-id="{{ $article->id }}"
+                data-blog-category="{{ $useCat }}">
+            Загрузить ещё
+        </button>
     @endif
 </section>
 <!-- blog -->

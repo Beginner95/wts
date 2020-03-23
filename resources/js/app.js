@@ -94,7 +94,8 @@ function clickHandler(e) {
     if (e.target.classList.contains('load_more_blog')) {
         let _token = $('input[name="_token"]').val();
         let article_id = $('.load_more_blog').attr('data-article-id');
-        load_more_blog(article_id, _token);
+        let blog_category = $('.load_more_blog').attr('data-blog-category');
+        load_more_blog(article_id, blog_category, _token);
     }
 }
 
@@ -140,16 +141,21 @@ function scrollHandler(e) {
 
 document.addEventListener('scroll', scrollHandler);
 
-
-function load_more_blog(id, _token) {
+function load_more_blog(id, blog_category, _token) {
     $.ajax({
         url:"/blog/load-more",
         method: "POST",
-        data:{id:id, _token:_token},
+        data:{id:id, slug: blog_category, _token:_token},
         success:function (data) {
             $('.more-content-blog').append(data);
             $('.load_more_blog').attr('data-article-id', $('input[name="last-id"]').val());
+            $('.load_more_blog').attr('data-blog-category', $('input[name="data-blog-category"]').val());
             $('input[name="last-id"]').remove();
+            $('input[name="data-blog-category"]').remove();
+
+            if (data.length === 0) {
+                $('.load_more_blog').remove();
+            }
         }
     })
 }
