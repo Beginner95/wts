@@ -8,14 +8,14 @@ use App\Repositories\ArticleRepository;
 use App\Repositories\ContactRepository;
 use App\Repositories\MenusRepository;
 use App\Repositories\PortfolioRepository;
-use App\Repositories\ProjectCategory;
+use App\Repositories\ProjectCategoryRepository;
 use App\Repositories\ServiceRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
 class IndexController extends SiteController
 {
-    public function __construct(PortfolioRepository $p_rep, ArticleRepository $a_rep, ServiceRepository $s_rep, ProjectCategory $pc_rep)
+    public function __construct(PortfolioRepository $p_rep, ArticleRepository $a_rep, ServiceRepository $s_rep, ProjectCategoryRepository $pc_rep)
     {
         parent::__construct(new MenusRepository(new Menu()), new ContactRepository(new Contact()));
         $this->p_rep = $p_rep;
