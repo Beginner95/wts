@@ -20,7 +20,7 @@ abstract class Repository
         }
 
         if ($where) {
-            $builder->where($where[0], $where[1], $where[2]);
+            $builder->where($where);
         }
 
         return $builder->get();
