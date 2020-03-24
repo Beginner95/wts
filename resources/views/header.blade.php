@@ -1,6 +1,6 @@
 <header class="header center d-flex">
     <a href="/" class="logo">
-        <img src="img/logo.svg" alt="">
+        <img src="/img/logo.svg" alt="">
     </a>
     <nav class="d-flex">
         @if ($menu)
