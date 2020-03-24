@@ -65,6 +65,10 @@ class BlogController extends SiteController
             $where
         );
 
+        if ($articles) {
+            $articles->load('category');
+        }
+
         return $articles;
     }
 
@@ -101,6 +105,11 @@ class BlogController extends SiteController
                     config('settings.blog_load_more_count')
                 );
             }
+
+            if ($articles) {
+                $articles->load('category');
+            }
+
             $output = '';
             $last_id = '';
             if (!$articles->isEmpty()) {
