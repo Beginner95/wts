@@ -91,6 +91,12 @@ function clickHandler(e) {
         e.target.classList.toggle('active');
     }
 
+    if (e.target.classList.contains('load_more_post_category')) {
+        let _token = $('input[name="_token"]').val();
+        let post_category_id = $('.load_more_post_category').attr('data-post-category-id');
+        load_more_blog_post_category(post_category_id, _token);
+    }
+
     if (e.target.classList.contains('load_more_blog')) {
         let _token = $('input[name="_token"]').val();
         let article_id = $('.load_more_blog').attr('data-article-id');
@@ -140,6 +146,23 @@ function scrollHandler(e) {
 }
 
 document.addEventListener('scroll', scrollHandler);
+
+function load_more_blog_post_category(id, _token) {
+    $.ajax({
+        url:"/blog/load-more-post-categories",
+        method: "POST",
+        data:{id:id, _token:_token},
+        success:function (data) {
+            $('.load_more_post_category').before(data);
+            $('.load_more_post_category').attr('data-post-category-id', $('input[name="last-post-category-id"]').val());
+            $('input[name="last-post-category-id"]').remove();
+
+            if (data.length === 0) {
+                $('.load_more_post_category').remove();
+            }
+        }
+    })
+}
 
 function load_more_blog(id, blog_category, _token) {
     $.ajax({

@@ -1,4 +1,5 @@
 <!-- page_header -->
+@csrf
 <div class="section_header section_header-reviews center d-flex">
     <div class='section_header-item'>
         <h3 class='page_name'>
@@ -19,8 +20,10 @@
                 {{ $postCategory->category }}
             </a>
         @endforeach
+        <button  class="btn btn-filled load_more_post_category" data-post-category-id="{{ $postCategory->id }}">
+            Еще
+        </button>
     @endif
-    <button class="btn btn-filled">Еще</button>
 </div>
 <!-- page_header -->
 
@@ -84,7 +87,6 @@
                 </figure>
             @endforeach
         </div>
-        @csrf
         <button
                 class="btn btn-filled load_more_blog"
                 data-article-id="{{ $article->id }}"

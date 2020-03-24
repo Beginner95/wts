@@ -25,6 +25,7 @@ Route::resource('portfolio', 'PortfolioController', [
 ]);
 
 Route::get('blog/{slug?}', 'BlogController@index')->name('blogCategory');
+Route::post('blog/load-more-post-categories', 'BlogController@loadMorePostCategories')->name('blog.loadMorePostCategories');
 Route::post('blog/load-more', 'BlogController@loadMore')->name('blog.loadMore');
 Route::resource('blog', 'BlogController', [
     'parameters' => [

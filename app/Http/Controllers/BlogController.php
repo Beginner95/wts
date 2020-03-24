@@ -35,9 +35,9 @@ class BlogController extends SiteController
     protected function getPostCategories()
     {
         $postCategories = $this->post_category_rep->get(
-            ['category', 'slug'],
-            false,
-            false
+            ['id', 'category', 'slug'],
+            'id,asc',
+            config('settings.blog_post_category_count')
         );
 
         return $postCategories;
@@ -124,6 +124,39 @@ class BlogController extends SiteController
                     $last_id = $article->id;
                 }
                 $output .= '<input type="hidden" name="last-id" value="' . $last_id . '">';
+                echo $output;
+            } else {
+                return response()->json();
+            }
+        }
+    }
+
+    public function loadMorePostCategories(Request $request)
+    {
+        if ($request->ajax()) {
+            if ($request->id > 0) {
+                $postCategories = $this->post_category_rep->get(
+                    ['id', 'category', 'slug'],
+                    'id,asc',
+                    config('settings.blog_post_category_count'),
+                    [['id', '>', $request->id]]
+                );
+            } else {
+                $postCategories = $this->post_category_rep->get(
+                    ['id', 'category', 'slug'],
+                    'id,asc',
+                    config('settings.blog_post_category_count')
+                );
+            }
+            $output = '';
+            $last_post_category_id = '';
+            if (!$postCategories->isEmpty()) {
+                foreach ($postCategories as $postCategory) {
+                    $output .= '<a href="' . route('blogCategory', ['slug' => $postCategory->slug]) . '"';
+                    $output .= 'class="btn btn-bordered">' . $postCategory->category . '</a>';
+                    $last_post_category_id = $postCategory->id;
+                }
+                $output .= '<input type="hidden" name="last-post-category-id" value="' . $last_post_category_id . '">';
                 echo $output;
             } else {
                 return response()->json();
