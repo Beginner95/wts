@@ -13,7 +13,8 @@
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
         "lavary/laravel-menu": "1.7.*",
-        "jenssegers/date": "3.5.*"
+        "jenssegers/date": "3.5.*",
+        "symfony/dom-crawler": "^4.4"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
