@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Congratulation;
 use App\Contact;
 use App\Menu;
 use App\PostCategory;
@@ -28,7 +29,8 @@ class BlogController extends SiteController
         $articles = $this->getArticles($slug);
         $articles = !empty($articles) ? $articles->all() : null;
         $postCategories = $this->getPostCategories();
-        $content = view('blog.articles', compact('articles', 'postCategories'));
+        $congratulation = $this->getCongratulations();
+        $content = view('blog.articles', compact('articles', 'postCategories', 'congratulation'));
         $this->vars = Arr::add($this->vars, 'content', $content);
         return $this->renderOutput();
     }
@@ -208,5 +210,10 @@ class BlogController extends SiteController
             $headings[] = $domElement->nodeValue;
         }
         return $headings;
+    }
+
+    protected function getCongratulations()
+    {
+        return Congratulation::where('is_published', 1)->first();
     }
 }

@@ -51,13 +51,17 @@
 
 
     <div class="blog_page section_content">
-        <figure class="section_item section_item-announcement">
-            <h3 class="section_item-name">
-                🎉  Поздравляем наших клиентов с Новым годом!
-            </h3>
-        </figure>
+        @php $articleCount = 7 @endphp
+        @if ($congratulation)
+            <figure class="section_item section_item-announcement">
+                <h3 class="section_item-name">
+                    🎉  {{ $congratulation->body }}
+                </h3>
+            </figure>
+            @php $articleCount = 6; @endphp
+        @endif
         @if ($articles && count($articles) > 7)
-            @foreach (array_slice($articles, 7, 6) as $article)
+            @foreach (array_slice($articles, 7, $articleCount) as $article)
                 <figure class="section_item @if (empty($article->main_cover)) section_item-vacancy @endif">
                     <a href="{{ route('blog.show', ['slug' => $article->slug]) }}" class="section_item-wrap_link">
                         @if (!empty($article->main_cover))
