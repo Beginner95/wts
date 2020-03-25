@@ -44,7 +44,7 @@ class BlogController extends SiteController
         return $postCategories;
     }
 
-    protected function getArticles($slug = false)
+    protected function getArticles($slug = false, $count = false)
     {
         $where = false;
         if($slug) {
@@ -54,6 +54,10 @@ class BlogController extends SiteController
                 return false;
             }
             $where = [['post_category_id', '=', $category->id]];
+        }
+
+        if (!$count) {
+            $count = config('settings.blog_articles_count');
         }
 
         $articles = $this->a_rep->get(
@@ -66,7 +70,7 @@ class BlogController extends SiteController
                 'img_title', 'post_category_id'
             ],
             'created_at,DESC',
-            config('settings.blog_articles_count'),
+            $count,
             $where
         );
 
@@ -183,7 +187,8 @@ class BlogController extends SiteController
         $article = $this->a_rep->one($slug);
         $readingTime = $this->getReadingTime($article);
         $headings = $this->getHeadings($article);
-        $content = view('blog.article', compact('article', 'readingTime', 'headings'));
+        $topicArticles = $this->getArticles($article->category->slug, config('settings.blog_same_topic_count'));
+        $content = view('blog.article', compact('article', 'readingTime', 'headings', 'topicArticles'));
         $this->vars = Arr::add($this->vars, 'content', $content);
         return $this->renderOutput();
     }

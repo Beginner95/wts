@@ -59,6 +59,28 @@
 </section>
 <!-- post -->
 
+<section class="similar center">
+    <h3 class="section_subeading">
+        Статьи в той же тематике
+    </h3>
+    <div class="similar_wrap section_content">
+        @if($topicArticles)
+            @foreach ($topicArticles as $topicArticle)
+                <a href="{{ route('blog.show', ['slug' => $topicArticle->slug]) }}" class="section_item-wrap_link">
+                    <figure class="section_item">
+                        <picture class="section_item-img">
+                            <source srcset='/images/{{ $topicArticle->main_cover }}' type='image/webp'>
+                            <img src="/images/{{ $topicArticle->main_cover }}" alt="">
+                        </picture>
+                        <p class="section_item-type">{{ $topicArticle->category->category }}</p>
+                        <h3 class="section_item-name">{{ $topicArticle->title }}</h3>
+                        <p class="section_item-description">{{ $topicArticle->short_desc }}</p>
+                    </figure>
+                </a>
+            @endforeach
+        @endif
+    </div>
+</section>
 <!-- scripts -->
 <script
         src="https://code.jquery.com/jquery-3.4.0.min.js"

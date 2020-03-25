@@ -12,5 +12,6 @@ return [
     'main_project_category_count' => 5,
     'blog_articles_count' => 18,
     'blog_load_more_count' => 4,
-    'blog_post_category_count' => 10
+    'blog_post_category_count' => 10,
+    'blog_same_topic_count' => 4
 ];
