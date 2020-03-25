@@ -11,6 +11,7 @@ use App\Repositories\MenusRepository;
 use App\Repositories\PostCategoryRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Symfony\Component\DomCrawler\Crawler;
 
 class BlogController extends SiteController
 {
@@ -47,8 +48,12 @@ class BlogController extends SiteController
     {
         $where = false;
         if($slug) {
-            $id = PostCategory::select('id')->where('slug', $slug)->first()->id;
-            $where = [['post_category_id', '=', $id]];
+            $category = PostCategory::select('id')->where('slug', $slug)->first();
+            if (empty($category)) {
+                $this->show($slug);
+                return false;
+            }
+            $where = [['post_category_id', '=', $category->id]];
         }
 
         $articles = $this->a_rep->get(
@@ -171,5 +176,32 @@ class BlogController extends SiteController
                 return response()->json();
             }
         }
+    }
+
+    public function show($slug = false)
+    {
+        $article = $this->a_rep->one($slug);
+        $readingTime = $this->getReadingTime($article);
+        $headings = $this->getHeadings($article);
+        $content = view('blog.article', compact('article', 'readingTime', 'headings'));
+        $this->vars = Arr::add($this->vars, 'content', $content);
+        return $this->renderOutput();
+    }
+
+    protected function getReadingTime($article)
+    {
+        $countSymbol = mb_strlen($article->body);
+        return round($countSymbol / 1500);
+    }
+
+    protected function getHeadings($article)
+    {
+        $crawler = new Crawler($article->body);
+        $crawler = $crawler->filter('h2');
+        $headings = [];
+        foreach ($crawler as $domElement) {
+            $headings[] = $domElement->nodeValue;
+        }
+        return $headings;
     }
 }
