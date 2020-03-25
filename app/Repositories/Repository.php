@@ -25,4 +25,9 @@ abstract class Repository
 
         return $builder->get();
     }
+
+    public function one($slug)
+    {
+        return $this->model->where('slug', $slug)->first();
+    }
 }
