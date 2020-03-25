@@ -33,7 +33,7 @@
         <div class="blog_page section_content">
         @foreach (array_slice($articles, 0, 7) as $article)
             <figure class="section_item @if (empty($article->main_cover)) section_item-vacancy @endif">
-                <a href="#" class="section_item-wrap_link">
+                <a href="{{ route('blog.show', ['slug' => $article->slug]) }}" class="section_item-wrap_link">
                     @if (!empty($article->main_cover))
                         <picture class="section_item-img">
                             <source srcset='/images/{{ $article->main_cover }}' type='image/webp'>
@@ -59,7 +59,7 @@
         @if ($articles && count($articles) > 7)
             @foreach (array_slice($articles, 7, 6) as $article)
                 <figure class="section_item @if (empty($article->main_cover)) section_item-vacancy @endif">
-                    <a href="#" class="section_item-wrap_link">
+                    <a href="{{ route('blog.show', ['slug' => $article->slug]) }}" class="section_item-wrap_link">
                         @if (!empty($article->main_cover))
                             <picture class="section_item-img">
                                 <source srcset='/images/{{ $article->main_cover }}' type='image/webp'>
@@ -79,17 +79,17 @@
         <div class="blog_page section_content more-content-blog">
             @foreach (array_slice($articles, 13) as $article)
                 <figure class="section_item @if (empty($article->main_cover)) section_item-vacancy @endif">
-                    <a href="#" class="section_item-wrap_link">
-
-                    @if (!empty($article->main_cover))
-                        <picture class="section_item-img">
-                            <source srcset='/images/{{ $article->main_cover }}' type='image/webp'>
-                            <img src="/images/{{ $article->main_cover }}" alt="">
-                        </picture>
-                    @endif
-                    <p class="section_item-type">{{ $article->category->category }}</p>
-                    <h3 class="section_item-name">{{ $article->title }}</h3>
-                    <p class="section_item-description">{{ $article->short_desc }}</p>
+                    <a href="{{ route('blog.show', ['slug' => $article->slug]) }}" class="section_item-wrap_link">
+                        @if (!empty($article->main_cover))
+                            <picture class="section_item-img">
+                                <source srcset='/images/{{ $article->main_cover }}' type='image/webp'>
+                                <img src="/images/{{ $article->main_cover }}" alt="">
+                            </picture>
+                        @endif
+                        <p class="section_item-type">{{ $article->category->category }}</p>
+                        <h3 class="section_item-name">{{ $article->title }}</h3>
+                        <p class="section_item-description">{{ $article->short_desc }}</p>
+                    </a>
                 </figure>
             @endforeach
         </div>
