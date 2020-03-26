@@ -18,6 +18,7 @@ Route::resource('/', 'IndexController', [
     ]
 ]);
 
+Route::post('portfolio/load-more-works', 'PortfolioController@loadMore')->name('portfolio.loadMore');
 Route::resource('portfolio', 'PortfolioController', [
     'parameters' => [
         'portfolio' => 'slug'

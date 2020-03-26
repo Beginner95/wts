@@ -1,3 +1,4 @@
+@csrf
 <div class="section_header section_header-portfolio center d-flex">
     <div class='section_header-item'>
         <h3 class='page_name'>Портфолио</h3>
@@ -41,7 +42,7 @@
                 <button class="btn btn-bordered filter_date">Сначала новые</button>
             </div>
         </div>
-        <div class="all_projects_wrap">
+        <div class="all_projects_wrap load-more-works">
             @foreach($portfolios as $portfolio)
                 <figure class="section_item">
                     <picture class="section_item-img">
@@ -60,7 +61,9 @@
                 </figure>
             @endforeach
         </div>
-        <button class="btn btn-filled load_more">
+        <button
+                class="btn btn-filled load_more_works"
+                data-work-id="{{ $portfolio->id }}">
             Загрузить ещё
         </button>
     </section>

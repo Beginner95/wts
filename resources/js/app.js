@@ -103,6 +103,12 @@ function clickHandler(e) {
         let blog_category = $('.load_more_blog').attr('data-blog-category');
         load_more_blog(article_id, blog_category, _token);
     }
+
+    if (e.target.classList.contains('load_more_works')) {
+        let _token = $('input[name="_token"]').val();
+        let work_id = $('.load_more_works').attr('data-work-id');
+        load_more_works(work_id, _token);
+    }
 }
 
 document.addEventListener('click', clickHandler);
@@ -178,6 +184,23 @@ function load_more_blog(id, blog_category, _token) {
 
             if (data.length === 0) {
                 $('.load_more_blog').remove();
+            }
+        }
+    })
+}
+
+function load_more_works(work_id, _token) {
+    $.ajax({
+        url: "/portfolio/load-more-works",
+        method: "POST",
+        data: {id: work_id, _token:_token},
+        success:function (data) {
+            $('.load-more-works').append(data);
+            $('.load_more_works').attr('data-work-id', $('input[name="last-work-id"]').val());
+            $('input[name="last-work-id"]').remove();
+
+            if (data.length === 0) {
+                $('.load_more_works').remove();
             }
         }
     })
