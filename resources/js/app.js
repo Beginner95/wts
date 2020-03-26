@@ -182,3 +182,7 @@ function load_more_blog(id, blog_category, _token) {
         }
     })
 }
+
+function load_more_filter() {
+    
+}
