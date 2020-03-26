@@ -26,7 +26,8 @@ class PortfolioController extends SiteController
     public function index()
     {
         $portfolios = $this->getPortfolios();
-        $content = view('portfolio.portfolios', compact('portfolios'));
+        $selectedWorks = $this->getSelectedWorks();
+        $content = view('portfolio.portfolios', compact('portfolios', 'selectedWorks'));
         $this->vars = Arr::add($this->vars, 'content', $content);
         return $this->renderOutput();
     }
@@ -38,6 +39,27 @@ class PortfolioController extends SiteController
             'show_main,desc',
             config('settings.main_portfolio_count'),
             [['show_main', null], ['show_portfolio', null]]
+        );
+
+        if ($portfolio->isEmpty()) {
+            return false;
+        }
+
+        $portfolio->transform(function ($item, $key) {
+            $item->image = config('settings.portfolio_path') . '/' . $item->image;
+            return $item;
+        });
+
+        return $portfolio;
+    }
+
+    protected function getSelectedWorks()
+    {
+        $portfolio = $this->p_rep->get(
+            '*',
+            'show_portfolio,asc',
+            config('settings.main_portfolio_count'),
+            [['show_portfolio', '!=', null]]
         );
 
         if ($portfolio->isEmpty()) {
