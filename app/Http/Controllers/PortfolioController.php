@@ -83,14 +83,14 @@ class PortfolioController extends SiteController
                     '*',
                     'show_portfolio,asc',
                     config('settings.main_portfolio_count'),
-                    [['show_portfolio', '!=', null], ['id', '>', $request->id]]
+                    [['show_portfolio', null], ['id', '>', $request->id]]
                 );
             } else {
                 $works = $this->p_rep->get(
                     '*',
                     'show_portfolio,asc',
                     config('settings.main_portfolio_count'),
-                    [['show_portfolio', '!=', null]]
+                    [['show_portfolio', null]]
                 );
             }
             $output = '';
