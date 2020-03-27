@@ -117,7 +117,13 @@ class PortfolioController extends SiteController
                                         }
                                     }
                                 $output .= '</p>
-                                <p class="section_item-stack">Laravel + React.js + Python</p>
+                                <p class="section_item-stack">';
+                                    if ($work->stacks) {
+                                        foreach($work->stacks as $stack) {
+                                            $output .= '<span class="icon-plus">' . $stack->name . '</span>';
+                                        }
+                                    }
+                                $output .= '</p>
                             </div>
                             <div class="section_item-info">
                                 <time class="section_item-year">' . $work->year . '</time>

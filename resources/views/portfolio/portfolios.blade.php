@@ -24,7 +24,13 @@
                                     @endforeach
                                 @endif
                             </p>
-                            <p class="section_item-stack">Laravel + React.js + Python</p>
+                            <p class="section_item-stack">
+                                @if($selectedWork->stacks)
+                                    @foreach($selectedWork->stacks as $stack)
+                                        <span class="icon-plus">{{ $stack->name }}</span>
+                                    @endforeach
+                                @endif
+                            </p>
                         </div>
                         <div class="section_item-info">
                             <time class="section_item-year">{{ $selectedWork->year }}</time>
@@ -63,7 +69,13 @@
                                 @endforeach
                             @endif
                         </p>
-                        <p class="section_item-stack">Laravel + React.js + Python</p>
+                        <p class="section_item-stack">
+                            @if($portfolio->stacks)
+                                @foreach($portfolio->stacks as $stack)
+                                    <span class="icon-plus">{{ $stack->name }}</span>
+                                @endforeach
+                            @endif
+                        </p>
                     </div>
                     <div class="section_item-info">
                         <time class="section_item-year">{{ $portfolio->year }}</time>
