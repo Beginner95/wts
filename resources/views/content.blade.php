@@ -44,7 +44,13 @@
                         <img src="/images/{{ $portfolio->image }}" alt="">
                     </a>
                 </picture>
-                <p class="section_item-type">$portfolio->category->type</p>
+                <p class="section_item-type">
+                    @if($portfolio->categories)
+                        @foreach($portfolio->categories as $category)
+                            <span class="icon-plus">{{ $category->name }}</span>
+                        @endforeach
+                    @endif
+                </p>
                 <div class="section_item-info">
                     <time class="section_item-year">{{ $portfolio->year }}</time>
                     <h3 class="section_item-name">{{ $portfolio->name }}</h3>
