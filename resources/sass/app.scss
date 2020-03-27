@@ -2541,6 +2541,15 @@ input:checked + .radio_bg {
 }
 /*contacts*/
 
+.icon-plus:after {
+  content: "+";
+  padding-left: 4px;
+}
+
+.icon-plus:last-child::after {
+  content: "";
+}
+
 @media screen and (max-width: 1320px) {
   .center {
     padding-left: calc(50vw - 520px);

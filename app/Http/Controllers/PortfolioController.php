@@ -110,7 +110,13 @@ class PortfolioController extends SiteController
                                 <img src="/images/' . $work->image . '" alt="">
                             </picture>
                             <div class="d-flex section_item-top">
-                                <p class="section_item-type">Онлайн-сервис + Приложение</p>
+                                <p class="section_item-type">';
+                                    if($work->categories) {
+                                        foreach($work->categories as $category) {
+                                            $output .= '<span class="icon-plus">' . $category->name . '</span>';
+                                        }
+                                    }
+                                $output .= '</p>
                                 <p class="section_item-stack">Laravel + React.js + Python</p>
                             </div>
                             <div class="section_item-info">

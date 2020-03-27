@@ -17,7 +17,13 @@
                             <img src="/images/{{ $selectedWork->image }}" alt="">
                         </picture>
                         <div class="d-flex section_item-top">
-                            <p class="section_item-type">Онлайн-сервис + Приложение</p>
+                            <p class="section_item-type">
+                                @if($selectedWork->categories)
+                                    @foreach($selectedWork->categories as $category)
+                                        <span class="icon-plus">{{ $selectedWork->name }}</span>
+                                    @endforeach
+                                @endif
+                            </p>
                             <p class="section_item-stack">Laravel + React.js + Python</p>
                         </div>
                         <div class="section_item-info">
@@ -50,7 +56,13 @@
                         <img src="img/portfolio_img-1.jpg" alt="">
                     </picture>
                     <div class="d-flex section_item-top">
-                        <p class="section_item-type">Онлайн-сервис + Приложение</p>
+                        <p class="section_item-type">
+                            @if($portfolio->categories)
+                                @foreach($portfolio->categories as $category)
+                                    <span class="icon-plus">{{ $category->name }}</span>
+                                @endforeach
+                            @endif
+                        </p>
                         <p class="section_item-stack">Laravel + React.js + Python</p>
                     </div>
                     <div class="section_item-info">
