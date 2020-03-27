@@ -10,4 +10,9 @@ class Portfolio extends Model
     {
         return $this->belongsToMany(ProjectCategory::class);
     }
+
+    public function stacks()
+    {
+        return $this->belongsToMany(Stack::class);
+    }
 }
