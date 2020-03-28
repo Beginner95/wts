@@ -16,6 +16,7 @@ class CreateStackTable extends Migration
         Schema::create('stack', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->string('slug');
             $table->string('icon')->nullable();
             $table->string('backend')->nullable();
             $table->string('frontend')->nullable();
