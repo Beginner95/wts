@@ -4,6 +4,100 @@
         <h3 class='page_name'>Портфолио</h3>
         <p class="page_description">Мы создаем лучшие digital-проекты, которые аномально эффективны и полезны, а не просто выглядят отлично</p>
     </div>
+    <button class="btn btn-filled filter_toggler">Фильтрация</button>
+</div>
+
+@php
+    if(Request::get('sort') === 'asc') {
+        $dateFilter = !empty(Request::get('filterStack') ) ? '&filterStack=' . Request::get('filterStack') : '';
+        $sort = '?sort=desc' . $dateFilter;
+        $txtDesc = 'Сначала новые';
+        $param = '?sort=asc&filterStack=';
+    } elseif (Request::get('sort') === 'desc') {
+        $dateFilter = !empty(Request::get('filterStack') ) ? '&filterStack=' . Request::get('filterStack') : '';
+        $sort = '?sort=asc' . $dateFilter;
+        $txtDesc = 'Сначала старые';
+        $param = '?sort=desc&filterStack=';
+    } elseif (Request::get('filterStack') != '') {
+        $dataSort = !empty(Request::get('sort')) ? '&sort=' . Request::get('sort') : '&sort=asc';
+        $txtDesc = 'Сначала старые';
+        $sort = '?filterStack=' . Request::get('filterStack') . $dataSort;
+        $param = '?filterStack=' . Request::get('filterStack');
+    } else {
+        $txtDesc = 'Сначала старые';
+        $sort = '?sort=asc';
+        $param = '?filterStack=';
+    }
+@endphp
+<div class="filters_wrap center d-flex">
+    <div class="filters_stack_wrap">
+        @if($stacks['mobiles'])
+            <ul class="filters_stack-item filters_stack-mob d-flex">
+                <li><a href="#">Мобильные приложения:</a></li>
+                @foreach($stacks['mobiles'] as $mobile)
+                    <li>
+                        <a
+                            href="/portfolio{{ $param . $mobile->slug }}" class='btn btn-bordered'>
+                            <img src="img/stack/{{ $mobile->icon }}" alt="{{ $mobile->name }}">
+                            <span>{{ $mobile->name }}</span>
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+        @endif
+        @if($stacks['cms'])
+            <ul class="filters_stack-item">
+                <li><a href="#">CMS:</a></li>
+                @foreach($stacks['cms'] as $cms)
+                    <li>
+                        <a href="/portfolio{{ $param . $cms->slug }}" class='btn btn-bordered'>
+                            <img src="img/stack/{{ $cms->icon }}" alt="{{ $cms->name }}">
+                            <span>{{ $cms->name }}</span>
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+        @endif
+        @if($stacks['frontends'])
+            <ul class="filters_stack-item">
+                <li><a href="#">Front end:</a></li>
+                @foreach($stacks['frontends'] as $frontend)
+                    <li>
+                        <a href="/portfolio{{ $param . $frontend->slug }}" class='btn btn-bordered'>
+                            <img src="img/stack/{{ $frontend->icon }}" alt="{{ $frontend->name }}">
+                            <span>{{ $frontend->name }}</span>
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+        @endif
+        @if($stacks['backends'])
+            <ul class="filters_stack-item">
+                <li><a href="#">Back end:</a></li>
+                @foreach($stacks['backends'] as $backend)
+                    <li>
+                        <a href="/portfolio{{ $param . $backend->slug }}" class='btn btn-bordered'>
+                            <img src="img/stack/{{ $backend->icon }}" alt="{{ $backend->name }}">
+                            <span>{{ $backend->name }}</span>
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+        @endif
+        @if($stacks['frameworks'])
+            <ul class="filters_stack-item">
+                <li><a href="#">Фреймворки:</a></li>
+                @foreach($stacks['frameworks'] as $framework)
+                    <li>
+                        <a href="/portfolio{{ $param . $framework->slug }}" class='btn btn-bordered'>
+                            <img src="img/stack/{{ $framework->icon }}" alt="{{ $framework->name }}">
+                            <span>{{ $framework->name }}</span>
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+        @endif
+    </div>
 </div>
 
 @if($selectedWorks)
@@ -51,17 +145,7 @@
             </div>
             <div class="filter_wrap d-flex">
                 <p class="filter_wrap-label">По дате:</p>
-                @php
-                    if(Request::get('sort') === 'asc') {
-                        $sort = 'desc';
-                        $txtDesc = 'Сначала новые';
-                    } else {
-                        $sort = 'asc';
-                        $txtDesc = 'Сначала старые';
-                    }
-
-                @endphp
-                <a href="/portfolio?sort={{ $sort }}" class="btn btn-bordered filter_date">{{ $txtDesc }}</a>
+                <a href="/portfolio{{ $sort }}" class="btn btn-bordered filter_date">{{ $txtDesc }}</a>
             </div>
         </div>
         <div class="all_projects_wrap load-more-works">

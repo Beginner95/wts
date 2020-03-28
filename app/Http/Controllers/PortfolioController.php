@@ -7,6 +7,7 @@ use App\Menu;
 use App\Repositories\ContactRepository;
 use App\Repositories\MenusRepository;
 use App\Repositories\PortfolioRepository;
+use App\Stack;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
@@ -28,10 +29,10 @@ class PortfolioController extends SiteController
     public function index(Request $request)
     {
         $sort = !empty($request->sort) ? $request->sort : false;
-
+        $stacks = $this->getStacks();
         $portfolios = $this->getPortfolios($sort);
         $selectedWorks = $this->getSelectedWorks();
-        $content = view('portfolio.portfolios', compact('portfolios', 'selectedWorks'));
+        $content = view('portfolio.portfolios', compact('portfolios', 'selectedWorks', 'stacks'));
         $this->vars = Arr::add($this->vars, 'content', $content);
         return $this->renderOutput();
     }
@@ -147,5 +148,44 @@ class PortfolioController extends SiteController
                 return response()->json();
             }
         }
+    }
+
+    protected function getStacks()
+    {
+        $stacks = Stack::get();
+        $mobiles = [];
+        $frontends = [];
+        $backends = [];
+        $frameworks = [];
+        $cms = [];
+        foreach ($stacks as $stack) {
+            if (!empty($stack->mobile)) {
+                $mobiles[] = $stack;
+            }
+
+            if (!empty($stack->frontend)) {
+                $frontends[] = $stack;
+            }
+
+            if (!empty($stack->backend)) {
+                $backends[] = $stack;
+            }
+
+            if (!empty($stack->framework)) {
+                $frameworks[] = $stack;
+            }
+
+            if (!empty($stack->cms)) {
+                $cms[] = $stack;
+            }
+        }
+
+        return [
+            'mobiles' => $mobiles,
+            'frontends' => $frontends,
+            'backends' => $backends,
+            'frameworks' => $frameworks,
+            'cms' => $cms
+        ];
     }
 }
