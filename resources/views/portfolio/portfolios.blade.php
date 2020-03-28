@@ -51,7 +51,17 @@
             </div>
             <div class="filter_wrap d-flex">
                 <p class="filter_wrap-label">По дате:</p>
-                <button class="btn btn-bordered filter_date">Сначала новые</button>
+                @php
+                    if(Request::get('sort') === 'asc') {
+                        $sort = 'desc';
+                        $txtDesc = 'Сначала новые';
+                    } else {
+                        $sort = 'asc';
+                        $txtDesc = 'Сначала старые';
+                    }
+
+                @endphp
+                <a href="/portfolio?sort={{ $sort }}" class="btn btn-bordered filter_date">{{ $txtDesc }}</a>
             </div>
         </div>
         <div class="all_projects_wrap load-more-works">

@@ -22,22 +22,29 @@ class PortfolioController extends SiteController
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $portfolios = $this->getPortfolios();
+        $sort = !empty($request->sort) ? $request->sort : false;
+
+        $portfolios = $this->getPortfolios($sort);
         $selectedWorks = $this->getSelectedWorks();
         $content = view('portfolio.portfolios', compact('portfolios', 'selectedWorks'));
         $this->vars = Arr::add($this->vars, 'content', $content);
         return $this->renderOutput();
     }
 
-    protected function getPortfolios()
+    protected function getPortfolios($sort = false)
     {
+        if ($sort) {
+            $sort = 'year,'. $sort;
+        }
+
         $portfolio = $this->p_rep->get(
             '*',
-            'show_main,desc',
+            $sort,
             config('settings.main_portfolio_count'),
             [['show_main', null], ['show_portfolio', null]]
         );
