@@ -7,16 +7,18 @@ use App\Menu;
 use App\Repositories\ContactRepository;
 use App\Repositories\MenusRepository;
 use App\Repositories\PortfolioRepository;
+use App\Repositories\ProjectCategoryRepository;
 use App\Stack;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
 class PortfolioController extends SiteController
 {
-    public function __construct(PortfolioRepository $p_rep)
+    public function __construct(PortfolioRepository $p_rep, ProjectCategoryRepository $pc_rep)
     {
         parent::__construct(new MenusRepository(new Menu()), new ContactRepository(new Contact()));
         $this->p_rep = $p_rep;
+        $this->pc_rep = $pc_rep;
         $this->template = 'portfolio.index';
     }
 
@@ -29,25 +31,45 @@ class PortfolioController extends SiteController
     public function index(Request $request)
     {
         $sort = !empty($request->sort) ? $request->sort : false;
+        $stack = !empty($request->stack) ? $request->stack : false;
+        $category = !empty($request->category) ? $request->category : false;
+
         $stacks = $this->getStacks();
-        $portfolios = $this->getPortfolios($sort);
+        $projectCategories = $this->getCategory();
+        $portfolios = $this->getPortfolios($sort, $stack, $category);
         $selectedWorks = $this->getSelectedWorks();
-        $content = view('portfolio.portfolios', compact('portfolios', 'selectedWorks', 'stacks'));
+        $content = view('portfolio.portfolios', compact(
+            'portfolios',
+            'selectedWorks',
+            'stacks',
+            'projectCategories'
+        ));
         $this->vars = Arr::add($this->vars, 'content', $content);
         return $this->renderOutput();
     }
 
-    protected function getPortfolios($sort = false)
+    protected function getPortfolios($sort = false, $stack = false, $category = false)
     {
+        $whereHas = false;
         if ($sort) {
             $sort = 'year,'. $sort;
+        }
+
+        if ($stack) {
+            $whereHas = ['stacks', 'slug', $stack];
+        }
+
+        if ($category) {
+            $whereHas = ['categories', 'slug', $category];
         }
 
         $portfolio = $this->p_rep->get(
             '*',
             $sort,
             config('settings.main_portfolio_count'),
-            [['show_main', null], ['show_portfolio', null]]
+            [['show_main', null], ['show_portfolio', null]],
+            false,
+            $whereHas
         );
 
         if ($portfolio->isEmpty()) {
@@ -187,5 +209,19 @@ class PortfolioController extends SiteController
             'frameworks' => $frameworks,
             'cms' => $cms
         ];
+    }
+
+    protected function getCategory()
+    {
+        $projectCategories = $this->pc_rep->get(
+            ['name', 'slug'],
+            '',
+            false,
+            false,
+            'projects'
+
+        );
+
+        return $projectCategories;
     }
 }
