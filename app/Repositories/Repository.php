@@ -6,7 +6,7 @@ abstract class Repository
 {
     protected $model = false;
 
-    public function get($select = '*', $orderBy = false, $take = false, $where = false, $withCount = false)
+    public function get($select = '*', $orderBy = false, $take = false, $where = false, $withCount = false, $whereHas = false)
     {
         $builder = $this->model->select($select);
 
@@ -25,6 +25,12 @@ abstract class Repository
 
         if ($withCount) {
             $builder->withCount($withCount);
+        }
+
+        if ($whereHas) {
+            $builder->whereHas($whereHas[0], function($q) use ($whereHas) {
+                return $q->where($whereHas[1], '=', $whereHas[2]);
+            });
         }
 
         return $builder->get();
