@@ -11,6 +11,7 @@ use App\Repositories\ProjectCategoryRepository;
 use App\Stack;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Symfony\Component\DomCrawler\Crawler;
 
 class PortfolioController extends SiteController
 {
@@ -48,7 +49,7 @@ class PortfolioController extends SiteController
         return $this->renderOutput();
     }
 
-    protected function getPortfolios($sort = false, $stack = false, $category = false)
+    protected function getPortfolios($sort = false, $stack = false, $category = false, $take = false)
     {
         $whereHas = false;
         if ($sort) {
@@ -63,10 +64,14 @@ class PortfolioController extends SiteController
             $whereHas = ['categories', 'slug', $category];
         }
 
+
+        if ($take === false) {
+            $take = config('settings.main_portfolio_count');
+        }
         $portfolio = $this->p_rep->get(
             '*',
             $sort,
-            config('settings.main_portfolio_count'),
+            $take,
             [['show_main', null], ['show_portfolio', null]],
             false,
             $whereHas
@@ -225,4 +230,27 @@ class PortfolioController extends SiteController
 
         return $projectCategories;
     }
+
+    public function show($slug)
+    {
+        $work = $this->p_rep->one($slug);
+        $headings = $this->getHeadings($work);
+        $lastWorks = $this->getPortfolios(false, false, false, 4);
+        $content = view('portfolio.work', compact('work', 'headings', 'lastWorks'));
+        $this->vars = Arr::add($this->vars, 'content', $content);
+        return $this->renderOutput();
+    }
+
+    protected function getHeadings($work)
+    {
+        $crawler = new Crawler($work->body);
+        $crawler = $crawler->filter('h3');
+        $headings = [];
+        foreach ($crawler as $domElement) {
+            $headings[] = $domElement->nodeValue;
+        }
+        return $headings;
+    }
+
+
 }

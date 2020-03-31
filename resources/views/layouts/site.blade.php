@@ -32,45 +32,34 @@
 <div class="modal center">
     <div class="section_header d-flex">
         <div class='section_header-item'>
-            <h3 class='page_name'>
-                Заявка
-            </h3>
-            <p class="page_description">
-                Напишите нам и мы постараемся ответить на любой ваш вопрос
-            </p>
+            <h3 class='page_name'>Заявка</h3>
+            <p class="page_description">Напишите нам и мы постараемся ответить на любой ваш вопрос</p>
         </div>
-        <button class="btn btn-filled hide_modal">
-            Свернуть
-        </button>
+        <button class="btn btn-filled hide_modal">Свернуть</button>
     </div>
-    <form class="contact_form">
+    <form class="contact_form" action="{{ route('contact.store') }}" method="post" enctype="multipart/form-data">
+        @csrf
         <label class="input_wrap">
             <input type="text" name="name" class="input">
-            <span class="input_label">
-					Имя
-				</span>
+            <span class="input_label">Имя</span>
         </label>
         <label class="input_wrap">
             <input type="tel" name="phone" class="input">
-            <span class="input_label">
-					Телефон
-				</span>
+            <span class="input_label">Телефон</span>
+        </label>
+        <label class="input_wrap">
+            <input type="tel" name="email" class="input">
+            <span class="input_label">E-mail</span>
         </label>
         <label class="input_wrap input_wrap-wide">
-            <textarea rows="3" name="comment" class="input"></textarea>
-            <span class="input_label">
-					Сообщение
-				</span>
+            <textarea rows="3" name="message" class="input"></textarea>
+            <span class="input_label">Сообщение</span>
         </label>
         <label class="input_wrap input_wrap-file input_wrap-wide">
-            <input type="file" name="file" class='visually_hidden'>
-            <span class="input_label">
-					📎 Прикрепить файл
-				</span>
+            <input type="file" name="file" class="visually_hidden" accept=".pdf, .doc, .docx, .xls, .xlsx, .txt, .ppt, .pptx">
+            <span class="input_label">📎 Прикрепить файл</span>
         </label>
-        <button class="btn btn-filled input_wrap-wide">
-            Отправить
-        </button>
+        <button class="btn btn-filled input_wrap-wide">Отправить</button>
         <p class="input_wrap-wide policy text_center">
             Нажимая на кнопку «Отправить», вы соглашаетесь с <a href="#">политикой конфиденциальности</a>
         </p>
@@ -105,8 +94,5 @@
     }
     slidersInit()
 </script>
-<!-- scripts -->
 </body>
 </html>
-
-<!-- <input type="phone" required="" pattern="7[0-9]{3}[0-9]{3}[0-9]{2}[0-9]{2}"> -->
