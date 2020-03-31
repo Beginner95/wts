@@ -23,6 +23,7 @@ class CreatePortfoliosTable extends Migration
             $table->string('image')->nullable();
             $table->char('show_main')->nullable();
             $table->char('show_portfolio')->nullable();
+            $table->longText('body');
             $table->timestamps();
         });
     }
