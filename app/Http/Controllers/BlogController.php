@@ -129,7 +129,7 @@ class BlogController extends SiteController
                     if (empty($article->main_cover)) {
                         $style = 'section_item-vacancy';
                     }
-                    $output .= '<figure class="section_item ' .  $style .' ">';
+                    $output .= '<a href="blog/' . $article->slug . '" class="section_item ' .  $style .' ">';
                         if (!empty($article->main_cover)) {
                             $output .= '<picture class="section_item-img">
                                 <source srcset="/images/' . $article->main_cover . '" type="image/webp">
@@ -139,7 +139,7 @@ class BlogController extends SiteController
                         $output .= '<p class="section_item-type">' . $article->category->category . '</p>
                         <h3 class="section_item-name">' . $article->title . '</h3>
                         <p class="section_item-description">' . $article->short_desc . '</p>
-                    </figure>
+                    </a>
                     ';
                     $last_id = $article->id;
                 }

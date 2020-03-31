@@ -578,7 +578,14 @@ nav {
   font-size: 11px;
   overflow: hidden;
   cursor: pointer;
+  color: inherit;
 }
+
+.blog .btn_big {
+     max-width: 100%;
+     margin-bottom: 20px;
+}
+
 .section_item:hover .section_item-img {
   filter: grayscale(100%);
 }
