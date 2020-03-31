@@ -148,11 +148,13 @@
         </div>
         <div class="all_projects_wrap load-more-works">
             @foreach($portfolios as $portfolio)
-                <figure class="section_item">
-                    <picture class="section_item-img">
-                        <source srcset='img/portfolio_img-1.webp' type='image/webp'>
-                        <img src="img/portfolio_img-1.jpg" alt="">
-                    </picture>
+                <a href="{{ route('portfolio.show', ['slug' => $portfolio->slug]) }}" class="section_item">
+                    @if(!empty($portfolio->image))
+                        <picture class="section_item-img">
+                            <source srcset="/images/{{ $portfolio->image }}" type='image/webp'>
+                            <img src="/images/{{ $portfolio->image }}" alt="">
+                        </picture>
+                    @endif
                     <div class="d-flex section_item-top">
                         <p class="section_item-type">
                             @if($portfolio->categories)
@@ -174,11 +176,11 @@
                         <h3 class="section_item-name">{{ $portfolio->name }}</h3>
                         <p class="section_item-description">{{ $portfolio->description }}</p>
                     </div>
-                </figure>
+                </a>
             @endforeach
         </div>
         <button
-                class="btn btn-filled load_more_works"
+                class="btn btn-filled btn_big load_more_works mb20"
                 data-work-id="{{ $portfolio->id }}">
             Загрузить ещё
         </button>

@@ -133,34 +133,35 @@ class PortfolioController extends SiteController
                 });
 
                 foreach ($works as $work) {
-                    $output .= '
-                        <figure class="section_item">
-                            <picture class="section_item-img">
-                                <source srcset="/images/{{ $selectedWork->image }}" type="image/webp">
-                                <img src="/images/' . $work->image . '" alt="">
-                            </picture>
-                            <div class="d-flex section_item-top">
-                                <p class="section_item-type">';
-                                    if($work->categories) {
-                                        foreach($work->categories as $category) {
-                                            $output .= '<span class="icon-plus">' . $category->name . '</span>';
-                                        }
+                    $output .= ' <a href="/portfolio/' . $work->slug . '" class="section_item">';
+                        if (!empty($work->image)) {
+                            $output .= '<picture class="section_item-img">
+                                <source srcset="/images/' . $work->image . '" type="image/webp">
+                                <img src="/images/' . $work->image . '" alt="' . $work->name . '">
+                            </picture>';
+                        }
+                        $output .= '<div class="d-flex section_item-top">
+                            <p class="section_item-type">';
+                                if($work->categories) {
+                                    foreach($work->categories as $category) {
+                                        $output .= '<span class="icon-plus">' . $category->name . '</span>';
                                     }
-                                $output .= '</p>
-                                <p class="section_item-stack">';
-                                    if ($work->stacks) {
-                                        foreach($work->stacks as $stack) {
-                                            $output .= '<span class="icon-plus">' . $stack->name . '</span>';
-                                        }
+                                }
+                            $output .= '</p>
+                            <p class="section_item-stack">';
+                                if ($work->stacks) {
+                                    foreach($work->stacks as $stack) {
+                                        $output .= '<span class="icon-plus">' . $stack->name . '</span>';
                                     }
-                                $output .= '</p>
-                            </div>
-                            <div class="section_item-info">
-                                <time class="section_item-year">' . $work->year . '</time>
-                                <h3 class="section_item-name">' . $work->name . '</h3>
-                                <p class="section_item-description">' . $work->description . '</p>
-                            </div>
-                        </figure>
+                                }
+                            $output .= '</p>
+                        </div>
+                        <div class="section_item-info">
+                            <time class="section_item-year">' . $work->year . '</time>
+                            <h3 class="section_item-name">' . $work->name . '</h3>
+                            <p class="section_item-description">' . $work->description . '</p>
+                        </div>
+                    </a>
                     ';
                     $last_work_id = $work->id;
                 }
